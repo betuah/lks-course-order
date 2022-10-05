@@ -1,0 +1,48 @@
+# Do not change version. This is the version of aws buildspec, not the version of your buldspec file.
+version: 0.2
+
+env:
+  variables:
+    ECR_REPO: 517312321348.dkr.ecr.us-east-1.amazonaws.com/course-catalog
+    ECR_REGION: us-east-1
+    CONTAINER_NAME: course-catalog-container
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+      docker: 20
+  pre_build:
+    commands:
+      - echo "Installing source NPM Depedencies.."
+      - npm install
+      - echo "Logging into ECR.."
+      - aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
+  build:
+    commands:
+      - echo "Run unit testing.."
+      - npm run test
+      - echo "Build docker image.."
+      - docker build -t ${ECR_REPO}:latest .
+      - echo "Tangging docker image"
+      - docker tag ${ECR_REPO}:latest ${ECR_REPO}:v${CODEBUILD_BUILD_NUMBER}
+      - echo "Build image complete.."
+  post_build:
+    commands:
+      - echo "push image to ECR.."
+      - docker push ${ECR_REPO}:latest
+      - docker push ${ECR_REPO}:v${CODEBUILD_BUILD_NUMBER}
+      - echo "Push image to ECR completed.."
+      - echo "Create image definition.."
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME ${ECR_REPO}:latest > imagedefinitions.json
+      - echo "build complete.."
+
+reports:
+  test-report:
+    files:
+      - 'report/test-result.xml'
+    file-format: JUNITXML
+
+artifacts:
+  files:
+    - imagedefinitions.json
