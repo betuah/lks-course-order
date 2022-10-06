@@ -5,6 +5,7 @@ const {
    ScanCommand,
    GetItemCommand,
    PutItemCommand,
+   UpdateItemCommand,
    DeleteItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
@@ -109,7 +110,7 @@ exports.create = async (req, res) => {
 
       await ddbClient.send(command);
 
-      res.status(404).json({
+      res.status(200).json({
          code: "200",
          status: "OK",
          data: data,
@@ -145,24 +146,42 @@ exports.update = async (req, res) => {
          return accumulator + parseFloat(e.price);
       }, 0);
 
-      const data = {
+      const body = marshall({
          order_id: order_id,
          item: items,
          payment_method: payment_method,
          bank: bank,
          amount: amount,
-      };
-
-      const command = new PutItemCommand({
-         TableName: config.dynamodb_table,
-         Item: marshall(data),
       });
 
-      await ddbClient.send(command);
+      const param = {
+         TableName: config.dynamodb_table,
+         Key: {
+            order_id: body.order_id,
+         },
+         UpdateExpression:
+            "SET #item = :item, #payment_method = :pm, #bank = :b, #amount = :a",
+         ExpressionAttributeNames: {
+            "#item": "item",
+            "#payment_method": "payment_method",
+            "#bank": "bank",
+            "#amount": "amount",
+         },
+         ExpressionAttributeValues: {
+            ":item": body.item,
+            ":pm": body.payment_method,
+            ":b": body.bank,
+            ":a": body.amount,
+         },
+         ReturnValues: "UPDATED_NEW",
+      };
+      const command = new UpdateItemCommand(param);
+      const { Attributes } = await ddbClient.send(command);
 
-      res.status(404).json({
+      res.status(200).json({
          code: "200",
          status: "OK",
+         data: unmarshall(Attributes) || {},
       });
    } catch (e) {
       const errorName = e.name ? e.name : "";
@@ -191,7 +210,6 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
    try {
       const orderId = req.params.orderId;
-      console.log(orderId);
       const command = new DeleteItemCommand({
          TableName: config.dynamodb_table,
          Key: {
@@ -201,7 +219,7 @@ exports.delete = async (req, res) => {
          },
       });
 
-      const { Item } = await ddbClient.send(command);
+      await ddbClient.send(command);
       res.status(200).json({
          code: "200",
          status: "OK",
