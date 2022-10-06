@@ -1,54 +1,79 @@
-# Course Catalog Service
-Course catalog service is a part of course app API backend services to handle catalog functionality.
+
+
+# Course Order Service
+Course order service is a part of course app API backend services to handle course order functionality.
 
 ## TechStack
 
-Course Catalog uses a number of open source projects to work properly:
+Course Order uses a number of technology stack to work properly:
 - [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Sequelize] - modern TypeScript and Node.js ORM for database
+- [Express] - fast node.js network app framework 
 - [Mocha] - JavaScript test framework running on Node.js and in the browser
-- [aws-ssm] - environment management service with parameter store from AWS
-
-And of course, Course Catalog it self is open source with a [public repository][dill] on GitHub.
+- [dynamodb] - Fast, flexible NoSQL database service for single-digit millisecond performance at any scale by AWS
 
 ## API Endpoint
-You can check the API endpoint documentation at [here]
+
+You can check the API endpoint documentation in [here]
 
 ## Installation and setup
-### Environment
 
 
-### Run the server
-Course Catalog requires [Node.js](https://nodejs.org/) v16+ to run.
+#### Environment Variable
+
+Course order service need environment variable to comunicate with other AWS services like SSM Parameter Store and S3 Bucket. The following bellow is a list of the environments.
+
+| KEY | Required | Description  |
+|--|--|--|
+| **AWS_ACCESS_KEY** | ***true*** | AWS access key to access the dynamodb |
+|**AWS_SECRET_KEY**| ***true*** | AWS secret key to access the dynamodb |
+|**AWS_DYNAMODB_TABLE**| ***true*** | table order name in dynamodb |
+|**AWS_REGION**| ***true*** | AWS region that service you used |
+
+> **Note** : If your want to run env variable in local machine, you need to create **.env.production** and **.env.testing** by filling the key and value in the table above
+
+#### Run Unit Test
+You can easily run unit tests for Course Order Services for production test with the following command:
+
+```sh
+npm install
+npm run test 
+```
+these command will be generate `test-result.xml` file in **report** folder with JUnit format. If you want to show the testing result in the terminal, just following this command bellow :
+```sh
+npm install
+npm run testdev
+```
+
+#### Run the server
+Course Order requires [Node.js](https://nodejs.org/) v16+ to run.
 Install the dependencies and start the server.
 
 ```sh
-cd course-catalog
 npm install
 npm run start
 ```
 
-### Docker
+### Run with Docker
 
-Course catalog is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8000 for production and port 9000 for testing, so change this within the Dockerfile if necessary. When ready, simply use the Dockerfile to build the image.
+Course order is very easy to install and deploy in a Docker container.
+By default, the Docker will expose port 8000 for production and port 9000 for testing, When ready, simply use the Dockerfile to build the image.
 
 ```sh
-cd course-catalog
 docker build -t <name_tag> .
 ```
-
-> Note: You can change `<name_tag>` with image name whatever you want or you can change with your docker registry repository for example
+You can change `<name_tag>` with image name whatever you want. Let me gift you some example :
+```sh
+docker build -t course-order:latest .
+```
+or if you want to push the image to some docker registry repository like ECR just change the `<name_tag>` with the repository url, for example :
 
 ```sh
-docker build dkr.ecr.us-east-1.amazonaws.com/course-catalog:latest .
+docker build AWS_ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/course-order:latest .
 ```
 Once done, you can run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 8080 of the host to port 8000 of the Docker (or whatever port was exposed in the Dockerfile):
 
 ```sh
-docker run -d -p 8080:8000 --restart=always --name=course-catalog-container <name_tag>
+docker run -d -p 8080:8000 --name=course-order-container <name_tag>
 ```
 
 Verify the API by navigating to your server address in
@@ -66,7 +91,7 @@ MIT
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [dill]: <https://github.com/betuah/lks-course-catalog>
+   [dill]: <https://github.com/betuah/lks-course-order>
    [git-repo-url]: <https://github.com/joemccann/dillinger.git>
    [john gruber]: <http://daringfireball.net>
    [df1]: <http://daringfireball.net/projects/markdown/>
@@ -77,6 +102,8 @@ MIT
    [AWS-SDK]: <https://aws.amazon.com/id/sdk-for-javascript/#:~:text=The%20AWS%20SDK%20for%20JavaScript%20simpli%EF%AC%81es%20use%20of%20AWS%20Services,marshaling%2C%20serialization%2C%20and%20deserialization.>
    [aws-ssm]: <https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html>
    [here]: <https://documenter.getpostman.com/view/2061573/2s83zcRS5z>
+   [S3]: <https://aws.amazon.com/id/s3>
+   [dynamodb]: <https://aws.amazon.com/id/dynamodb/?trk=fb31ef7c-dff3-4b64-b3eb-6d667ece9f85&sc_channel=ps&s_kwcid=AL!4422!3!536452582733!e!!g!!dynamodb&ef_id=Cj0KCQjw1vSZBhDuARIsAKZlijSWMN1Cvsbzx6A6NnjWKqp-NtJEIw1M3X1B_U6HM54NStAjBRqH3YoaAq3oEALw_wcB:G:s&s_kwcid=AL!4422!3!536452582733!e!!g!!dynamodb>
 
    [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
    [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
