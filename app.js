@@ -1,5 +1,4 @@
 const express = require("express");
-const awsParamEnv = require("aws-param-env");
 const cors = require("cors");
 const compression = require("compression");
 const helmet = require("helmet");
@@ -9,18 +8,8 @@ const fs = require("fs");
 const path = require("path");
 const env = require("./env");
 
-awsParamEnv.load(`/course-catalog/${process.env.NODE_ENV}`, {
-   credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY,
-      secretAccessKey: process.env.AWS_SECRET_KEY,
-   },
-   region: "us-east-1",
-});
-
 const app = express();
 const port = process.env.PORT || 8000;
-// environments
-// app.use(initEnv);
 app.use(helmet());
 app.use(compression());
 app.disable("x-powered-by");
@@ -75,9 +64,9 @@ app.use(cookieParser());
 /* End Cookie Settings */
 
 /* Start of Routing Modules */
-const courseRoute = require("./routes/course_route");
+const orderRoute = require("./routes/order_route");
 
-courseRoute(app);
+orderRoute(app);
 /* End of Routing Modules */
 
 /* Check database connection */

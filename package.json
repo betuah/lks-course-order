@@ -12,8 +12,11 @@
    "author": "Betuah Anugerah",
    "license": "ISC",
    "dependencies": {
+      "@aws-sdk/client-dynamodb": "^3.183.0",
       "@aws-sdk/client-ssm": "^3.168.0",
       "@aws-sdk/cloudfront-signer": "^3.162.0",
+      "@aws-sdk/lib-dynamodb": "^3.183.0",
+      "@aws-sdk/util-dynamodb": "^3.183.0",
       "aws-param-env": "^2.1.0",
       "aws-sdk": "^2.1192.0",
       "bcrypt": "^5.0.1",
