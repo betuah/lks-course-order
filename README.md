@@ -100,7 +100,7 @@ MIT
    [Mocha]: <https://mochajs.org/>
    [AWS-SDK]: <https://aws.amazon.com/id/sdk-for-javascript/#:~:text=The%20AWS%20SDK%20for%20JavaScript%20simpli%EF%AC%81es%20use%20of%20AWS%20Services,marshaling%2C%20serialization%2C%20and%20deserialization.>
    [aws-ssm]: <https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html>
-   [here]: <https://documenter.getpostman.com/view/2061573/2s83zcRS5z>
+   [here]: <https://documenter.getpostman.com/view/2061573/2s83zdx7Di>
    [S3]: <https://aws.amazon.com/id/s3>
    [dynamodb]: <https://aws.amazon.com/id/dynamodb/?trk=fb31ef7c-dff3-4b64-b3eb-6d667ece9f85&sc_channel=ps&s_kwcid=AL!4422!3!536452582733!e!!g!!dynamodb&ef_id=Cj0KCQjw1vSZBhDuARIsAKZlijSWMN1Cvsbzx6A6NnjWKqp-NtJEIw1M3X1B_U6HM54NStAjBRqH3YoaAq3oEALw_wcB:G:s&s_kwcid=AL!4422!3!536452582733!e!!g!!dynamodb>
 
