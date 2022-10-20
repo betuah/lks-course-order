@@ -1,5 +1,8 @@
 module.exports = {
-   dynamodb_table: process.env.AWS_DYNAMODB_TABLE,
+   dynamodb_table:
+      process.env.NODE_ENV === "production"
+         ? process.env.AWS_DYNAMODB_TABLE_PROD
+         : process.env.AWS_DYNAMODB_TABLE_TEST,
    credential: {
       accessKeyId: process.env.AWS_ACCESS_KEY,
       secretAccessKey: process.env.AWS_SECRET_KEY,

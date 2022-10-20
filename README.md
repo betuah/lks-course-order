@@ -19,7 +19,7 @@ You can check the API endpoint documentation in [here]
 
 #### Environment Variable
 
-Course order service need environment variable to comunicate with other AWS services like SSM Parameter Store and S3 Bucket. The following bellow is a list of the environments.
+Course order service need environment variable to comunicate with other AWS services like SSM Parameter Store and S3 Bucket. The following below is a list of the environments.
 
 | KEY | Required | Description  |
 |--|--|--|
@@ -37,7 +37,7 @@ You can easily run unit tests for Course Order Services for production test with
 npm install
 npm run test 
 ```
-these command will be generate `test-result.xml` file in **report** folder with JUnit format. If you want to show the testing result in the terminal, just following this command bellow :
+these command will be generate `test-result.xml` file in **report** folder with JUnit format. If you want to show the testing result in the terminal, just following this command below :
 ```sh
 npm install
 npm run testdev
