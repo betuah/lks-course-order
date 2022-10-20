@@ -19,7 +19,7 @@ You can check the API endpoint documentation in [here]
 
 #### Environment Variable
 
-Course order service need environment variable to comunicate with other AWS services like SSM Parameter Store and S3 Bucket. The following below is a list of the environments.
+Course order service need environment variable to comunicate with other AWS services like dynamodb. You need create an IAM user to grand access for dynamodb. The following below is a list of the environments.
 
 | KEY | Required | Description  |
 |--|--|--|
