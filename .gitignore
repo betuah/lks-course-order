@@ -11,6 +11,9 @@ init_mongo.js
 # Node Modules
 .node_modules/
 
+# remove secret
+secret/*
+
 # Tmp
 ./tmp/*
 
