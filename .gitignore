@@ -13,6 +13,7 @@ init_mongo.js
 
 # remove secret
 secret/*
+Dockerrun.aws.json
 
 # Tmp
 ./tmp/*

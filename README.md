@@ -82,6 +82,45 @@ your preferred browser.
 127.0.0.1:8080
 ```
 
+### Deploy to AWS Beanstalk
+You can deploy to aws beanstalk if you already created the image and upload it to the docker registry like ECR. First step to deploy your image into aws beanstalk, you need to create Dockerrun.aws.json file in this repository with this following json format:
+```json
+{
+   "AWSEBDockerrunVersion": "1",
+   "Authentication": {
+      "Bucket": "YOUR_BUCKET", 
+      "Key": "YOUR_CONFIG_FILE_IN_BUCKET"
+   },
+   "Image": {
+      "Name": "YOUR_IMAGE_REPOSITORY"
+   },
+   "Ports": [
+      {
+         "ContainerPort": 8000,
+         "HostPort": 80
+      }
+   ]
+}
+```
+Description:
+- AWSEBDockerrunVersion is dockerrun version for create the container, 1 is mean for single container and 2 is for multi container.
+- Authentication is use for authenticate to private docker registry like ECR.
+- Authentication > bucket is where you put the dkcfg (Docker config) file for the credential.
+- Authentication > key is the credential file name in the selected bucket, for example, config.json or dkcfg.
+- Image is what you image url on ECR or other docker registry
+
+This is the example of config.json file for ECR credential:
+```json
+{
+  "auths": {
+    "YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com": {
+      "auth": "YOUR_ECR_AUTH_TOKEN"
+    }
+  }
+}
+```
+> **Note:** Dont forget to give permission aws beanstalk to get object from S3. You can create the ECR auth token with aws cli command `aws ecr get-login-password --region {{ECR_REGION}}` and copy the result to config.json file.
+
 ## License
 
 MIT
