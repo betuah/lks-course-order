@@ -10,6 +10,10 @@ const {
 } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 
+exports.check = async (req, res) => {
+   res.status(200).send("Its works!");
+};
+
 exports.get_all = async (req, res) => {
    try {
       const command = new ScanCommand({
