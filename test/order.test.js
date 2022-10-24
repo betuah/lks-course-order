@@ -19,10 +19,12 @@ describe("Order API CRUD Test", () => {
                {
                   course_id: "AWS_001",
                   price: 50000,
+                  qty: 2,
                },
                {
                   course_id: "IOT_001",
                   price: 100000,
+                  qty: 1,
                },
             ],
             payment_method: "virtual_account",

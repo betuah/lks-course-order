@@ -96,7 +96,7 @@ exports.create = async (req, res) => {
    try {
       const { order_id, items, payment_method, bank } = req.body;
       const amount = items.reduce((accumulator, e) => {
-         return accumulator + parseFloat(e.price);
+         return accumulator + parseFloat(e.price * e.qty);
       }, 0);
 
       const data = {
